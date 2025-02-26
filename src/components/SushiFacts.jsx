@@ -76,9 +76,9 @@ const SushiFacts = () => {
   if (!currentFact) return null;
 
   return (
-    <section id='sushi-facts' className="relative min-h-[400px] bg-sectionPurple p-32 overflow-hidden">
-      {/* Decorative circle */}
-      <div className="absolute top-[-50px] right-[-50px] w-64 h-64 opacity-10">
+    <section id="sushi-facts" className="relative bg-sectionPurple py-12 px-4 sm:py-20 md:py-32 overflow-hidden">
+      {/* Elementos decorativos */}
+      <div className="absolute top-[-30px] right-[-30px] sm:top-[-50px] sm:right-[-50px] w-40 sm:w-64 h-40 sm:h-64 opacity-10 pointer-events-none">
         <svg viewBox="0 0 100 100" className="w-full h-full rotate-12">
           <circle cx="50" cy="50" r="40" fill="white" />
           <circle cx="50" cy="50" r="35" fill="none" stroke="white" strokeWidth="2" />
@@ -86,53 +86,58 @@ const SushiFacts = () => {
         </svg>
       </div>
       
-      {/* Decorative square */}
-      <div className="absolute bottom-[-30px] left-[-30px] w-48 h-48 opacity-10">
+      <div className="absolute bottom-[-20px] left-[-20px] sm:bottom-[-30px] sm:left-[-30px] w-32 sm:w-48 h-32 sm:h-48 opacity-10 pointer-events-none">
         <svg viewBox="0 0 100 100" className="w-full h-full -rotate-12">
           <rect x="25" y="25" width="50" height="50" fill="white" />
           <rect x="30" y="30" width="40" height="40" fill="none" stroke="white" strokeWidth="2" />
         </svg>
       </div>
 
+      {/* Contenedor de fact con animación (asegurando que todo el bloque se agrande) */}
       <div 
-        className="group select-none relative max-w-2xl mx-auto bg-white/10 backdrop-blur-sm p-8 rounded-2xl 
-                   shadow-xl transform transition-all duration-700 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)]
-                   hover:scale-[1.15] hover:rotate-[12deg] hover:shadow-2xl hover:bg-white/20 cursor-pointer
-                   animate-float"
+        className="group select-none relative max-w-sm sm:max-w-xl md:max-w-2xl mx-auto bg-white/10 backdrop-blur-sm p-6 sm:p-8 rounded-2xl 
+                 shadow-xl transform transition-all duration-700 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)]
+                 hover:scale-[1.15] hover:rotate-[12deg] hover:shadow-2xl hover:bg-white/20 cursor-pointer
+                 animate-float"
         style={{ transform: `rotate(${rotation}deg)` }}
       >
-        <div className="absolute -top-6 -right-6 text-6xl select-none
-                      transition-transform duration-500 ease-out
-                      group-hover:scale-150 group-hover:rotate-[360deg] group-hover:animate-bounce">
+        {/* Icono decorativo */}
+        <div className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 text-4xl sm:text-6xl select-none
+                    transition-transform duration-500 ease-out
+                    group-hover:scale-150 group-hover:rotate-[360deg] group-hover:animate-bounce">
           {currentFact.icon}
         </div>
 
+        {/* Contenido principal */}
         <div className="relative z-10">
-          <h2 className="text-5xl font-heading text-white mb-6 tracking-wide
-                         transform transition-all duration-500
-                         group-hover:scale-110 group-hover:translate-y-[-5px]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading text-white mb-4 sm:mb-6 tracking-wide
+                       transform transition-all duration-500
+                       group-hover:scale-110 group-hover:translate-y-[-5px]">
             Did you know?
           </h2>
           
-          <p className="text-2xl font-body font-medium text-white leading-relaxed
-                       transform transition-all duration-500 delay-100
-                       group-hover:scale-105 group-hover:translate-x-2">
+          <p className="text-lg sm:text-xl md:text-2xl font-body font-medium text-white leading-relaxed
+                     transform transition-all duration-500 delay-100
+                     group-hover:scale-105 group-hover:translate-x-2">
             {currentFact.text}
           </p>
         </div>
 
+        {/* Línea decorativa */}
         <div className="absolute bottom-4 left-8 right-8 h-1 bg-white/20 rounded-full
-                       transform transition-all duration-500
-                       group-hover:scale-x-110 group-hover:bg-white/40" />
+                     transform transition-all duration-500
+                     group-hover:scale-x-110 group-hover:bg-white/40" />
         
-        <div className="absolute -left-4 -top-4 w-8 h-8 bg-white/0 rounded-full
-                       transition-all duration-500 ease-out
-                       group-hover:bg-white/20 group-hover:scale-[3] group-hover:rotate-[45deg]" />
-        <div className="absolute -right-4 -bottom-4 w-8 h-8 bg-white/0 rounded-full
-                       transition-all duration-500 ease-out
-                       group-hover:bg-white/20 group-hover:scale-[3] group-hover:rotate-[-45deg]" />
+        {/* Elementos decorativos adicionales */}
+        <div className="absolute -left-4 -top-4 w-6 h-6 sm:w-8 sm:h-8 bg-white/0 rounded-full
+                     transition-all duration-500 ease-out
+                     group-hover:bg-white/20 group-hover:scale-[3] group-hover:rotate-[45deg]" />
+        <div className="absolute -right-4 -bottom-4 w-6 h-6 sm:w-8 sm:h-8 bg-white/0 rounded-full
+                     transition-all duration-500 ease-out
+                     group-hover:bg-white/20 group-hover:scale-[3] group-hover:rotate-[-45deg]" />
       </div>
 
+      {/* Animación de flotación */}
       <style jsx>{`
         @keyframes float {
           0%, 100% { transform: rotate(${rotation}deg) translateY(0px); }

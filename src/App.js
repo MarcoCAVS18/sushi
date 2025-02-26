@@ -7,7 +7,14 @@ import VideoTutorial from "./components/VideoTutorial";
 import Feedback from "./components/Feedback";
 import Footer from "./components/Footer";
 
+import { useEffect } from 'react';
+import { initializeFeedbackStats } from './services/feedbackService';
+
 function App() {
+  useEffect(() => {
+    initializeFeedbackStats();
+  }, []);
+
   return (
     <>
     <Navbar />

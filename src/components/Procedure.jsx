@@ -110,13 +110,13 @@ const Procedure = () => {
   };
 
   return (
-    <section id="procedure" className="bg-sectionOrange p-8 text-center rounded-2xl text-white shadow-lg">
-
-      <h2 className="text-6xl font-heading text-white mb-8">🍳 Sushi Rice Procedure 🍚</h2>
-
+    <section id="procedure" className="bg-sectionOrange px-4 py-12 md:p-8 text-center rounded-2xl text-white shadow-lg">
+      <h2 className="text-4xl md:text-6xl font-heading text-white mb-8">🍳 Sushi Rice Procedure 🍚</h2>
+      
       {currentStep < steps.length ? (
         <div className="flex justify-center items-center">
-          <div className="relative w-[600px] h-[600px]">
+          <div className="relative w-full max-w-[600px] aspect-square">
+            {/* SVG para círculos y progreso */}
             <svg className="w-full h-full" viewBox="0 0 500 500">
               <circle
                 cx="250"
@@ -143,80 +143,82 @@ const Procedure = () => {
               )}
             </svg>
 
-            <div className="absolute top-0 right-0 w-64 h-64 opacity-5">
+            {/* Elementos decorativos */}
+            <div className="absolute top-0 right-0 w-1/3 h-1/3 opacity-5 pointer-events-none">
               <svg viewBox="0 0 100 100" className="w-full h-full">
-                <pattern id="dots" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
-                  <circle cx="2" cy="2" r="1" fill="black" />
+                <pattern id="dots-procedure" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="1" fill="white" />
                 </pattern>
-                <rect width="100" height="100" fill="url(#dots)" />
+                <rect width="100" height="100" fill="url(#dots-procedure)" />
               </svg>
             </div>
 
-            <div className="absolute bottom-0 left-0 w-64 h-32 opacity-5">
+            <div className="absolute bottom-0 left-0 w-1/3 h-1/6 opacity-5 pointer-events-none">
               <svg viewBox="0 0 100 100" className="w-full h-full">
                 <path
                   d="M0,50 Q25,30 50,50 T100,50 M0,70 Q25,50 50,70 T100,70"
-                  stroke="black"
+                  stroke="white"
                   strokeWidth="2"
                   fill="none"
                 />
               </svg>
             </div>
 
-            <div className="absolute top-1/4 -left-8 w-16 h-16 opacity-10">
-              <svg viewBox="0 0 100 100" className="w-full h-full rotate-45">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="black" strokeWidth="2" />
-                <circle cx="50" cy="50" r="35" fill="none" stroke="black" strokeWidth="1" />
-              </svg>
-            </div>
-
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-12">
-              <div className="absolute bottom-24 flex gap-4"> 
+            {/* Contenedor de contenido */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-4 sm:p-8 md:p-12">
+              {/* Indicadores de paso */}
+              <div className="absolute bottom-8 sm:bottom-16 md:bottom-24 flex gap-2 sm:gap-4"> 
                 {steps.map((_, index) => (
                   <div
                     key={index}
-                    className={`w-3 h-3 rounded-full ${currentStep === index ? 'bg-white' : 'bg-white bg-opacity-30'}`} 
+                    className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${currentStep === index ? 'bg-white' : 'bg-white bg-opacity-30'}`} 
                   />
                 ))}
               </div>
 
+              {/* Contenido principal con animación */}
               <div
-                className={`z-10 flex flex-col items-center transition-all duration-300 ease-out ${isAnimating ? 'translate-x-full opacity-0' : 'translate-x-0 opacity-100'
-                  }`}
+                className={`z-10 flex flex-col items-center transition-all duration-300 ease-out ${
+                  isAnimating ? 'translate-x-full opacity-0' : 'translate-x-0 opacity-100'
+                }`}
                 style={{ transform: isAnimating ? 'translateX(100%)' : 'translateX(0)' }}
               >
-                <div className="text-6xl mb-6">
+                {/* Emoji del paso */}
+                <div className="text-4xl sm:text-5xl md:text-6xl mb-4 sm:mb-6">
                   {steps[currentStep].emoji}
                 </div>
 
-                <div className="mb-6 px-8">
-                  <h3 className="text-3xl font-body font-extrabold mb-4">{steps[currentStep].title}</h3>
-                  <p className="text-xl font-body font-medium max-w-md mx-auto">{steps[currentStep].description}</p>
+                {/* Título y descripción */}
+                <div className="mb-4 sm:mb-6 px-2 sm:px-8">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-body font-extrabold mb-2 sm:mb-4">{steps[currentStep].title}</h3>
+                  <p className="text-sm sm:text-base md:text-xl font-body font-medium max-w-md mx-auto">{steps[currentStep].description}</p>
                 </div>
 
+                {/* Controles del temporizador */}
                 {steps[currentStep].hasTimer && (
-                  <div className="flex items-center gap-6 mb-4">
-                    <div className="flex gap-4">
+                  <div className="flex items-center gap-3 sm:gap-6 mb-4">
+                    <div className="flex gap-2 sm:gap-4">
                       <button
                         onClick={timerRunning ? pauseTimer : startTimer}
-                        className="bg-sectionPurple hover:bg-sectionDarkPurple text-white p-4 rounded-full shadow-md transition-all text-2xl"
+                        className="bg-sectionPurple hover:bg-sectionDarkPurple text-white p-2 sm:p-4 rounded-full shadow-md transition-all text-xl sm:text-2xl"
                       >
                         {timerRunning ? "⏸️" : "▶️"}
                       </button>
                       <button
                         onClick={resetTimer}
-                        className="bg-sectionPurple hover:bg-sectionDarkPurple text-white p-4 rounded-full shadow-md transition-all text-2xl"
+                        className="bg-sectionPurple hover:bg-sectionDarkPurple text-white p-2 sm:p-4 rounded-full shadow-md transition-all text-xl sm:text-2xl"
                       >
                         🔄
                       </button>
                     </div>
-                    <p className="text-4xl font-body font-extrabold">{formatTime(timeRemaining)}</p>
+                    <p className="text-2xl sm:text-3xl md:text-4xl font-body font-extrabold">{formatTime(timeRemaining)}</p>
                   </div>
                 )}
 
+                {/* Botón de completar */}
                 <button
                   onClick={completeStep}
-                  className="bg-white text-sectionDarkPurple px-10 py-4 rounded-full text-xl font-body font-extrabold shadow-md hover:scale-105 transition-transform"
+                  className="bg-white text-sectionDarkPurple px-6 sm:px-10 py-2 sm:py-4 rounded-full text-base sm:text-xl font-body font-extrabold shadow-md hover:scale-105 transition-transform"
                 >
                   {steps[currentStep].hasTimer && timeRemaining > 0 && !timerRunning
                     ? "Skip & Complete"
@@ -227,8 +229,9 @@ const Procedure = () => {
           </div>
         </div>
       ) : (
+        /* Vista de completado */
         <div className="flex justify-center items-center">
-          <div className="relative w-[600px] h-[600px]">
+          <div className="relative w-full max-w-[600px] aspect-square">
             <svg className="w-full h-full" viewBox="0 0 500 500">
               <circle
                 cx="250"
@@ -240,17 +243,17 @@ const Procedure = () => {
               />
             </svg>
 
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-12">
-              <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mb-8">
-                <span className="text-5xl text-sectionPurple">✓</span>
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-4 sm:p-8 md:p-12">
+              <div className="w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 bg-white rounded-full flex items-center justify-center mb-4 sm:mb-8">
+                <span className="text-3xl sm:text-4xl md:text-5xl text-sectionPurple">✓</span>
               </div>
-              <h3 className="text-4xl font-body font-extrabold mb-4">🎉 All Steps Completed! 🎉</h3>
-              <p className="text-2xl font-body font-medium mb-8 px-4 max-w-lg">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-body font-extrabold mb-2 sm:mb-4">🎉 All Steps Completed! 🎉</h3>
+              <p className="text-base sm:text-xl md:text-2xl font-body font-medium mb-4 sm:mb-8 px-4 max-w-lg">
                 Your sushi rice is now perfectly prepared and ready for assembly.
               </p>
               <a
                 href="#sushi-facts"
-                className="bg-white text-sectionDarkPurple px-10 py-4 rounded-full text-xl font-body font-extrabold shadow-md hover:scale-105 transition-transform"
+                className="bg-white text-sectionDarkPurple px-6 sm:px-10 py-2 sm:py-4 rounded-full text-base sm:text-xl font-body font-extrabold shadow-md hover:scale-105 transition-transform"
               >
                 Go to Facts ↓
               </a>
