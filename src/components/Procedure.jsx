@@ -110,7 +110,7 @@ const Procedure = () => {
   };
 
   return (
-    <section id="procedure" className="bg-sectionOrange px-4 py-12 md:p-8 text-center rounded-2xl text-white shadow-lg">
+    <section id="procedure" className="bg-sectionOrange px-4 py-12 md:p-8 text-center text-white">
       <h2 className="text-4xl md:text-6xl font-heading text-white mb-8">🍳 Sushi Rice Procedure 🍚</h2>
       
       {currentStep < steps.length ? (

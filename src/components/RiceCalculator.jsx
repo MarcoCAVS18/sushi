@@ -46,7 +46,7 @@ const RiceCalculator = () => {
   const textColorClass = hasInput ? "" : "text-gray-400";
 
   return (
-    <section id="calculator" className="relative bg-sectionPink px-4 py-16 md:p-20 text-center rounded-2xl text-black shadow-lg overflow-hidden">
+    <section id="calculator" className="relative bg-sectionPink px-4 py-16 md:p-20 text-center text-black overflow-hidden">
       {/* Elementos decorativos */}
       <div className="absolute top-0 right-0 w-64 h-64 opacity-5 pointer-events-none">
         <svg viewBox="0 0 100 100" className="w-full h-full">
