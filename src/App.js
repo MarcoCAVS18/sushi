@@ -12,22 +12,22 @@ import { initializeFeedbackStats } from './services/feedbackService';
 
 function App() {
   useEffect(() => {
+    window.scrollTo(0, 0); 
     initializeFeedbackStats();
   }, []);
 
   return (
     <>
-    <Navbar />
-    <Hero />
-    <RiceCalculator />
-    <Procedure />
-    <VideoTutorial />
-    <SushiFacts />
-    <Feedback />
-    <Footer />
-  </>
+      <Navbar />
+      <Hero />
+      <RiceCalculator />
+      <Procedure />
+      <VideoTutorial />
+      <SushiFacts />
+      <Feedback />
+      <Footer />
+    </>
   );
 }
 
 export default App;
-
