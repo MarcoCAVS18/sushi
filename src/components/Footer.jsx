@@ -10,12 +10,15 @@ const Footer = () => {
           </span>
           <div className="flex items-center gap-2">
             <span className="font-body text-sm text-white/80">Check it out</span>
-            <button 
+            <a 
+              href="https://github.com/MarcoCAVS18/sushi"
+              target="_blank" 
+              rel="noopener noreferrer"
               className="p-1.5 rounded-full hover:bg-white/10 transition-all duration-300"
               aria-label="View source code on Github"
             >
               <Github className="w-4 h-4" />
-            </button>
+            </a>
           </div>
         </div>
       </div>
