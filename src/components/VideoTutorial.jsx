@@ -56,6 +56,8 @@ const VideoTutorial = () => {
               className="w-full aspect-video"
               src="https://www.youtube.com/embed/40MiH9-FQ5w"
               title="Learn to Roll Sushi"
+              frameBorder="0"
+              sandbox="allow-same-origin allow-scripts allow-presentation"
               allowFullScreen
               loading="lazy"
             />

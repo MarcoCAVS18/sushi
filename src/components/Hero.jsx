@@ -1,13 +1,39 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import logo from "../images/logo.svg";
 
 const bounceAnimation = {
     rest: { y: 0, transition: { type: "spring", stiffness: 300, damping: 10 } },
-    hover: { y: -25, transition: { type: "spring", stiffness: 300, damping: 10 } }
+    hover: { y: -25, transition: { type: "spring", stiffness: 300, damping: 10 } },
+    mobileAnimate: { 
+        y: [-25, 0],
+        transition: { 
+            type: "spring", 
+            stiffness: 300, 
+            damping: 10,
+            repeat: Infinity,
+            repeatType: "reverse", 
+            duration: 1,
+            repeatDelay: 0.2
+        } 
+    }
 };
 
 const Hero = () => {
     const text = "Sushi with Marco!";
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Detectar si es dispositivo móvil
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     return (
         <section className="h-screen flex items-center justify-center text-center bg-sectionPink relative">
@@ -53,7 +79,19 @@ const Hero = () => {
                                         variants={char === " " ? {} : bounceAnimation}
                                         initial="rest"
                                         whileHover="hover"
-                                        animate="rest"
+                                        animate={isMobile ? {
+                                            y: [-25, 0],
+                                            transition: { 
+                                                type: "spring", 
+                                                stiffness: 300, 
+                                                damping: 10,
+                                                repeat: Infinity,
+                                                repeatType: "reverse",
+                                                delay: charIndex * 0.05 + wordIndex * 0.5, // Efecto cascada
+                                                duration: 1,
+                                                repeatDelay: Math.random() * 2 // Retraso aleatorio para efecto más natural
+                                            }
+                                        } : "rest"}
                                     >
                                         {char}
                                     </motion.span>

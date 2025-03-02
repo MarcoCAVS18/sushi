@@ -9,11 +9,13 @@ import Footer from "./components/Footer";
 
 import { useEffect } from 'react';
 import { initializeFeedbackStats } from './services/feedbackService';
+import { initializeFactsIfEmpty } from './services/factService';
 
 function App() {
   useEffect(() => {
     window.scrollTo(0, 0); 
     initializeFeedbackStats();
+    initializeFactsIfEmpty();    
   }, []);
 
   return (

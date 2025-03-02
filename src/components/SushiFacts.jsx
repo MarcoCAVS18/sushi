@@ -1,79 +1,59 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
+import { getAllFacts } from "../services/factService";
 
 const SushiFacts = () => {
   const [currentFact, setCurrentFact] = useState(null);
   const [rotation, setRotation] = useState(0);
+  const [facts, setFacts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const facts = useMemo(() => [
-    {
-      text: "Traditional sushi rolls are actually eaten with your fingers, not chopsticks!",
-      icon: "🍱"
-    },
-    {
-      text: "The word 'sushi' actually refers to the vinegared rice, not the raw fish!",
-      icon: "🍚"
-    },
-    {
-      text: "The most expensive sushi in the world costs over $1,978 per piece!",
-      icon: "💎"
-    },
-    {
-      text: "Salmon wasn't a traditional sushi fish - it was introduced in the 1980s!",
-      icon: "🐟"
-    },
-    {
-      text: "The practice of eating raw fish with rice started as a preservation method!",
-      icon: "⏳"
-    },
-    {
-      text: "Tuna is the most popular fish for sushi in Japan!",
-      icon: "🐡"
-    },
-    {
-      text: "There are over 100 different types of sushi!",
-      icon: "📚"
-    },
-    {
-      text: "A sushi chef trains for 10+ years before being considered a master!",
-      icon: "👨‍🍳"
-    },
-    {
-      text: "The first sushi restaurant outside Japan opened in the USA in 1966!",
-      icon: "🏯"
-    },
-    {
-      text: "Ginger is meant to be eaten between different types of sushi, not with it!",
-      icon: "🌱"
-    },
-    {
-      text: "The rice used in sushi is a special short-grain Japanese rice!",
-      icon: "🌾"
-    },
-    {
-      text: "Wasabi can help prevent food poisoning!",
-      icon: "🌶"
-    },
-    {
-      text: "The oldest type of sushi is fermented fish wrapped in rice!",
-      icon: "📜"
-    },
-    {
-      text: "Sushi chefs traditionally train to use their knives left-handed!",
-      icon: "🔪"
-    },
-    {
-      text: "The California roll was invented to introduce Americans to sushi!",
-      icon: "🌊"
-    }
-  ], []);
-
+  // Cargar facts de Firestore
   useEffect(() => {
-    const randomIndex = Math.floor(Math.random() * facts.length);
-    setCurrentFact(facts[randomIndex]);
-    setRotation(Math.random() * 12 - 6);
-  }, [facts]);
+    const fetchFacts = async () => {
+      setLoading(true);
+      try {
+        const fetchedFacts = await getAllFacts();
+        setFacts(fetchedFacts);
+        
+        // Seleccionar un fact aleatorio si hay facts disponibles
+        if (fetchedFacts.length > 0) {
+          const randomIndex = Math.floor(Math.random() * fetchedFacts.length);
+          setCurrentFact(fetchedFacts[randomIndex]);
+          setRotation(Math.random() * 12 - 6);
+        }
+      } catch (err) {
+        console.error("Error fetching facts:", err);
+        setError("Could not load sushi facts. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  if (!currentFact) return null;
+    fetchFacts();
+  }, []);
+
+  // Mostrar estado de carga
+  if (loading) {
+    return (
+      <section id="sushi-facts" className="relative bg-sectionPurple py-12 px-4 sm:py-20 md:py-32 overflow-hidden">
+        <div className="flex justify-center items-center h-40">
+          <div className="animate-pulse text-white text-xl">Loading facts...</div>
+        </div>
+      </section>
+    );
+  }
+
+  // Mostrar error si ocurre
+  if (error || !currentFact) {
+    return (
+      <section id="sushi-facts" className="relative bg-sectionPurple py-12 px-4 sm:py-20 md:py-32 overflow-hidden">
+        <div className="flex justify-center items-center h-40">
+          <div className="text-white text-xl">{error || "No facts available."}</div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="sushi-facts" className="relative bg-sectionPurple py-12 px-4 sm:py-20 md:py-32 overflow-hidden">
@@ -93,13 +73,25 @@ const SushiFacts = () => {
         </svg>
       </div>
 
-      {/* Contenedor de fact con animación (asegurando que todo el bloque se agrande) */}
+      {/* Contenedor de fact con animación */}
       <div 
         className="group select-none relative max-w-sm sm:max-w-xl md:max-w-2xl mx-auto bg-white/10 backdrop-blur-sm p-6 sm:p-8 rounded-2xl 
                  shadow-xl transform transition-all duration-700 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)]
                  hover:scale-[1.15] hover:rotate-[12deg] hover:shadow-2xl hover:bg-white/20 cursor-pointer
                  animate-float"
         style={{ transform: `rotate(${rotation}deg)` }}
+        onClick={() => {
+          // Opcionalmente, cambiar a otro fact al hacer clic
+          if (facts.length > 1) {
+            let newIndex;
+            do {
+              newIndex = Math.floor(Math.random() * facts.length);
+            } while (facts[newIndex].id === currentFact.id);
+            
+            setCurrentFact(facts[newIndex]);
+            setRotation(Math.random() * 12 - 6);
+          }
+        }}
       >
         {/* Icono decorativo */}
         <div className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 text-4xl sm:text-6xl select-none
@@ -137,16 +129,7 @@ const SushiFacts = () => {
                      group-hover:bg-white/20 group-hover:scale-[3] group-hover:rotate-[-45deg]" />
       </div>
 
-      {/* Animación de flotación */}
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: rotate(${rotation}deg) translateY(0px); }
-          50% { transform: rotate(${rotation}deg) translateY(-10px); }
-        }
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-      `}</style>
+     
     </section>
   );
 };
